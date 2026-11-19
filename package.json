@@ -26,7 +26,8 @@
     "lint:claude": "node scripts/check-claude-md.js",
     "db:generate": "npm run generate -w @mini-cloud/db",
     "db:migrate": "npm run migrate -w @mini-cloud/db",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "api:dev": "npm run dev -w @mini-cloud/api"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",

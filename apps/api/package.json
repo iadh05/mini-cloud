@@ -8,10 +8,15 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "dev": "node --watch src/index.ts",
-    "typecheck": "tsc -p ."
+    "dev": "node --watch --env-file-if-exists=../../.env src/index.ts",
+    "typecheck": "tsc -p .",
+    "start": "node --env-file-if-exists=../../.env src/index.ts"
   },
   "dependencies": {
-    "@mini-cloud/shared": "*"
+    "@mini-cloud/shared": "*",
+    "drizzle-orm": "0.45.4",
+    "fastify": "5.12.8",
+    "fastify-type-provider-zod": "7.0.0",
+    "zod": "4.6.7"
   }
 }
