@@ -8,9 +8,18 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "node --env-file-if-exists=../../.env src/bin/migrate.ts",
+    "studio": "drizzle-kit studio",
     "typecheck": "tsc -p ."
   },
   "dependencies": {
-    "@mini-cloud/shared": "*"
+    "@mini-cloud/shared": "*",
+    "drizzle-orm": "0.45.4",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@types/pg": "8.23.1",
+    "drizzle-kit": "0.31.11"
   }
 }

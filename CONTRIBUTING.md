@@ -41,17 +41,18 @@ Small commits that each still pass the checks.
 ## 4. Run the checks
 
 ```bash
-npm run check      # format, lint, architecture rules, typecheck, tests
+npm run check      # format, lint, architecture rules, typecheck, tests with coverage
 ```
 
-| Check          | Tool                                              | Catches                                                                                                                                               |
-| -------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format:check` | Prettier                                          | Formatting differences                                                                                                                                |
-| `lint`         | ESLint + typescript-eslint (strict, type-checked) | Bugs and unsafe code                                                                                                                                  |
-| `lint:claude`  | script                                            | A workspace or feature without a `CLAUDE.md`, a `CLAUDE.md` without a docs link, a feature not linking to `docs/services/<service>.md`, a broken link |
-| `lint:deps`    | dependency-cruiser                                | Broken boundaries: app → app, console → database, atomic levels going up, cycles                                                                      |
-| `typecheck`    | TypeScript (strict)                               | Type errors in every workspace                                                                                                                        |
-| `test`         | Vitest                                            | Failing tests                                                                                                                                         |
+| Check           | Tool                                                        | Catches                                                                                                                                               |
+| --------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format:check`  | Prettier                                                    | Formatting differences                                                                                                                                |
+| `lint`          | ESLint + typescript-eslint (strict, type-checked) + SonarJS | Bugs, unsafe code, code smells, cognitive complexity above 15                                                                                         |
+| `lint:claude`   | script                                                      | A workspace or feature without a `CLAUDE.md`, a `CLAUDE.md` without a docs link, a feature not linking to `docs/services/<service>.md`, a broken link |
+| `lint:deps`     | dependency-cruiser                                          | Broken boundaries: app → app, console → database, atomic levels going up, cycles                                                                      |
+| `typecheck`     | TypeScript (strict)                                         | Type errors in every workspace                                                                                                                        |
+| `test`          | Vitest                                                      | Failing tests                                                                                                                                         |
+| `test:coverage` | Vitest + V8 coverage                                        | Lines, statements, functions or branches below 80%                                                                                                    |
 
 The same checks run in CI on every pull request. A red CI blocks the merge.
 
@@ -83,12 +84,12 @@ Allowed scopes: `api`, `worker`, `dashboard`, `shared`, `db`, `infra`, `repo`, `
 
 Runs on every pull request and on every push to `main`. All jobs must be green to merge.
 
-| Job                               | Checks                                                                                      |
-| --------------------------------- | ------------------------------------------------------------------------------------------- |
-| Commit messages                   | Every commit in the pull request, and the pull request title (it becomes the squash commit) |
-| Format, lint, architecture, types | Prettier, ESLint (zero warnings), dependency-cruiser, CLAUDE.md check, TypeScript           |
-| Tests                             | Vitest, with a Postgres 18.7 service for integration tests                                  |
-| Platform starts                   | `docker compose up --wait` brings Postgres up healthy                                       |
+| Job                               | Checks                                                                                                      |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Commit messages                   | Every commit in the pull request, and the pull request title (it becomes the squash commit)                 |
+| Format, lint, architecture, types | Prettier, ESLint (zero warnings), dependency-cruiser, CLAUDE.md check, TypeScript                           |
+| Tests                             | Vitest with coverage (80% minimum, report attached to the run), Postgres 18.7 service for integration tests |
+| Platform starts                   | `docker compose up --wait` brings Postgres up healthy                                                       |
 
 ## Local setup
 

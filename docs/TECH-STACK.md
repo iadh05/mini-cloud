@@ -32,8 +32,8 @@
 | Job queue | Phase 2: table + `SKIP LOCKED`; Phase 3: **pg-boss** | No Redis needed; the locking mechanism stays visible | BullMQ (Redis), RabbitMQ | Proposed | [0006](adr/0006-postgres-for-everything.md) |
 | Logging | **Pino** | Fastify's default, JSON logs | Winston | Proposed | — |
 | Docker access (worker) | **dockerode** | Start, stop, logs and stats, where Terraform is a poor fit | Docker CLI via child process | Proposed | — |
-| Testing | **Vitest** 5.1.1; Playwright later | Fast, TypeScript-native | Jest | Accepted | — |
-| Lint + format | **ESLint** 10.15 (typescript-eslint 8.73, strict type-checked) + **Prettier** 3.10 | Type-aware rules, the industry standard | Biome | Accepted | — |
+| Testing | **Vitest** 5.1.1 + V8 coverage (80% minimum on lines, statements, functions, branches); Playwright later | Fast, TypeScript-native, coverage gate in CI | Jest | Accepted | — |
+| Lint + format | **ESLint** 10.15 (typescript-eslint 8.73 strict type-checked, **SonarJS** 4.2 for code smells and cognitive complexity ≤ 15) + **Prettier** 3.10 | Type-aware rules plus Sonar quality rules, the industry standard | Biome, SonarQube server | Accepted | — |
 | Architecture rules | **dependency-cruiser** 18.8 | Fails the build when an import breaks a boundary: app → app, console → database, atomic levels | ESLint import rules | Accepted | [0012](adr/0012-atomic-design-console.md) |
 | Auth (Phase 5) | Own sessions + **argon2id**, hashed API keys | Built in-house to control the whole auth flow | Auth.js, Keycloak | Later | — |
 
