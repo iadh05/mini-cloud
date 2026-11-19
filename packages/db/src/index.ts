@@ -1,4 +1,3 @@
-import { PLATFORM_NAME } from "@mini-cloud/shared";
-
-// Drizzle schema and client arrive in MC-202.
-export const DB_PACKAGE = `${PLATFORM_NAME}-db`;
+export * from "./client.ts";
+export { MIGRATIONS_DIR, runMigrations } from "./migrate.ts";
+export * from "./schema.ts";

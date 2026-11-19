@@ -16,14 +16,16 @@
     "lint:deps": "depcruise apps packages --config .dependency-cruiser.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p . && npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
     "check": "npm run format:check && npm run lint && npm run lint:deps && npm run lint:claude && npm run typecheck && npm test",
     "db:up": "docker compose up -d --wait postgres",
     "db:down": "docker compose down",
     "prepare": "husky",
     "lint:commits": "commitlint --from origin/main --to HEAD --verbose",
-    "lint:claude": "node scripts/check-claude-md.js"
+    "lint:claude": "node scripts/check-claude-md.js",
+    "db:generate": "npm run generate -w @mini-cloud/db",
+    "db:migrate": "npm run migrate -w @mini-cloud/db"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",
