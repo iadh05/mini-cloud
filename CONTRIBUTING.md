@@ -48,6 +48,7 @@ npm run check      # format, lint, architecture rules, typecheck, tests
 | -------------- | ------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `format:check` | Prettier                                          | Formatting differences                                                           |
 | `lint`         | ESLint + typescript-eslint (strict, type-checked) | Bugs and unsafe code                                                             |
+| `lint:claude`  | script                                            | A workspace or feature folder without its `CLAUDE.md`                            |
 | `lint:deps`    | dependency-cruiser                                | Broken boundaries: app → app, console → database, atomic levels going up, cycles |
 | `typecheck`    | TypeScript (strict)                               | Type errors in every workspace                                                   |
 | `test`         | Vitest                                            | Failing tests                                                                    |
@@ -85,7 +86,7 @@ Runs on every pull request and on every push to `main`. All jobs must be green t
 | Job                               | Checks                                                                                      |
 | --------------------------------- | ------------------------------------------------------------------------------------------- |
 | Commit messages                   | Every commit in the pull request, and the pull request title (it becomes the squash commit) |
-| Format, lint, architecture, types | Prettier, ESLint (zero warnings), dependency-cruiser, TypeScript                            |
+| Format, lint, architecture, types | Prettier, ESLint (zero warnings), dependency-cruiser, CLAUDE.md check, TypeScript           |
 | Tests                             | Vitest, with a Postgres 18.7 service for integration tests                                  |
 | Platform starts                   | `docker compose up --wait` brings Postgres up healthy                                       |
 
