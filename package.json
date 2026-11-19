@@ -20,18 +20,33 @@
     "test": "vitest run --passWithNoTests",
     "check": "npm run format:check && npm run lint && npm run lint:deps && npm run typecheck && npm test",
     "db:up": "docker compose up -d --wait postgres",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "prepare": "husky",
+    "lint:commits": "commitlint --from origin/main --to HEAD --verbose"
   },
   "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
     "@eslint/js": "10.0.1",
     "@types/node": "26.6.6",
     "dependency-cruiser": "18.8.0",
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.14.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.6.1",
     "prettier": "3.10.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.73.0",
     "vitest": "5.1.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,cjs,mjs}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }

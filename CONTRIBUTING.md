@@ -68,6 +68,27 @@ Run `npm run format` to fix formatting.
 - **Squash and merge**, then delete the branch.
 - Move the ticket to **Done**.
 
+## Git hooks (installed by `npm install`)
+
+| Hook         | Runs                                                     | Blocks the commit or push when                     |
+| ------------ | -------------------------------------------------------- | -------------------------------------------------- |
+| `pre-commit` | lint-staged: ESLint `--fix` and Prettier on staged files | A staged file has a lint error or warning          |
+| `commit-msg` | commitlint                                               | The message is not `type(scope): subject (MC-123)` |
+| `pre-push`   | architecture rules, typecheck, tests                     | Any of them fails                                  |
+
+Allowed scopes: `api`, `worker`, `dashboard`, `shared`, `db`, `infra`, `repo`, `ci`, `deps`, `docs`.
+
+## CI pipeline (GitHub Actions)
+
+Runs on every pull request and on every push to `main`. All jobs must be green to merge.
+
+| Job                               | Checks                                                                                      |
+| --------------------------------- | ------------------------------------------------------------------------------------------- |
+| Commit messages                   | Every commit in the pull request, and the pull request title (it becomes the squash commit) |
+| Format, lint, architecture, types | Prettier, ESLint (zero warnings), dependency-cruiser, TypeScript                            |
+| Tests                             | Vitest, with a Postgres 18.7 service for integration tests                                  |
+| Platform starts                   | `docker compose up --wait` brings Postgres up healthy                                       |
+
 ## Local setup
 
 ```bash
