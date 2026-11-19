@@ -47,6 +47,7 @@ jobs:
       - run: npm run format:check
       - run: npm run lint -- --max-warnings 0
       - run: npm run lint:deps
+      - run: npm run lint:claude
       - run: npm run typecheck
 
   test:

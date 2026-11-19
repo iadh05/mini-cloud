@@ -13,3 +13,10 @@ Components are built in levels. A level may only import from the levels below it
 
 Pages live in `features/<service>/pages/`. They fetch data and fill a template.
 Nothing in `ui/` imports from `features/`, `api/` or `app/`.
+
+## Rules for new components
+
+- Pick the lowest level that fits. Move it up only when it needs a higher-level piece.
+- No data fetching and no feature names inside `ui/`. Data comes in through props.
+- Colors, spacing, radius and fonts come from `tokens/`, never hard-coded.
+- Every interactive element is keyboard reachable and has an accessible name.
