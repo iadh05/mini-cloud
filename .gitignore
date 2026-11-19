@@ -1,0 +1,33 @@
+# dependencies and builds
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# local runtime data (volumes, rendered configs, logs)
+var/
+*.log
+
+# secrets: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Terraform: state holds secrets and real IDs, plugins are downloaded
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl.bak
+
+# editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
