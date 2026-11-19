@@ -8,7 +8,8 @@ Drizzle schema, SQL migrations and the database client. Used by the API and the 
 | -------------------- | --------------------------------------------------------------------------- |
 | `src/schema.ts`      | `resources` and `jobs` tables (types, defaults, indexes, CHECK constraints) |
 | `src/client.ts`      | `createDb({ url })` → Drizzle + pg pool                                     |
-| `src/migrate.ts`     | `runMigrations(url)`, also runnable: `npm run db:migrate`                   |
+| `src/migrate.ts`     | `runMigrations(url)`                                                        |
+| `src/bin/migrate.ts` | CLI entry point for `npm run db:migrate`                                    |
 | `migrations/`        | Generated SQL. Committed. Never edited after it is applied.                 |
 | `src/schema.test.ts` | Integration tests in a throwaway Postgres database                          |
 

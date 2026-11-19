@@ -41,7 +41,8 @@ for (const folder of folders) {
 }
 
 if (problems.length > 0) {
-  console.error(`CLAUDE.md rule broken:\n${problems.map((p) => `  - ${p}`).join("\n")}`);
+  const list = problems.map((problem) => "  - " + problem).join("\n");
+  console.error(`CLAUDE.md rule broken:\n${list}`);
   process.exit(1);
 }
 console.warn(`CLAUDE.md rule OK in ${String(folders.length)} folders`);

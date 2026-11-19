@@ -13,13 +13,3 @@ export async function runMigrations(url: string): Promise<void> {
     await close();
   }
 }
-
-if (import.meta.main) {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    console.error("DATABASE_URL is not set (copy .env.example to .env)");
-    process.exit(1);
-  }
-  await runMigrations(url);
-  console.warn("migrations applied");
-}
