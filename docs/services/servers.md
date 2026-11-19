@@ -14,10 +14,12 @@ Runs a container image as a server the user can reach at its own URL. The user c
 
 ## Spec (desired state)
 
+Schemas: `createServerInput` (API body, console form) and `serverSpec` (stored in `resources.spec`) in `packages/shared/src/server.ts`. Unknown fields are rejected.
+
 | Field | Type | Rules | Default |
 |---|---|---|---|
-| `name` | string | 3–40 chars, `^[a-z][a-z0-9-]*$`, unique per type among non-deleted resources | — |
-| `image` | string | from the allow-list in `@mini-cloud/shared` | — |
+| `name` | string | 3–40 chars, lowercase letters, digits and `-`, starts with a letter, does not end with `-` (it is a DNS label); unique per type among live resources | — |
+| `image` | enum | `nginx`, `httpd`, `caddy`, `whoami`; each maps to a pinned image (`SERVER_IMAGES`) | — |
 | `port` | integer | 1–65535, the port the app listens on inside the container | — |
 | `size` | enum | `nano`, `small`, `medium` (Phase 3, from load tests) | `nano` |
 
