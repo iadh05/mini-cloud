@@ -1,0 +1,16 @@
+{
+  "name": "@mini-cloud/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Database schema, migrations and client",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@mini-cloud/shared": "*"
+  }
+}

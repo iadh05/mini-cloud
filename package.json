@@ -1,0 +1,37 @@
+{
+  "name": "mini-cloud",
+  "private": true,
+  "type": "module",
+  "description": "A small self-hosted cloud: API, provisioner worker and console",
+  "engines": {
+    "node": ">=26"
+  },
+  "packageManager": "npm@11.20.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:deps": "depcruise apps packages --config .dependency-cruiser.cjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run --passWithNoTests",
+    "check": "npm run format:check && npm run lint && npm run lint:deps && npm run typecheck && npm test",
+    "db:up": "docker compose up -d --wait postgres",
+    "db:down": "docker compose down"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.6.6",
+    "dependency-cruiser": "18.8.0",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0",
+    "vitest": "5.1.1"
+  }
+}

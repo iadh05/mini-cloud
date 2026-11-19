@@ -1,0 +1,17 @@
+{
+  "name": "@mini-cloud/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Provisioner: takes jobs and runs Terraform",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "node --watch src/index.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@mini-cloud/shared": "*"
+  }
+}

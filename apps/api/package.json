@@ -1,0 +1,17 @@
+{
+  "name": "@mini-cloud/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "REST API: validates requests and stores desired state",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "node --watch src/index.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@mini-cloud/shared": "*"
+  }
+}

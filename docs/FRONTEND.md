@@ -16,9 +16,10 @@ The dashboard is a **thin client**. It shows state and sends requests. Every rul
 1. **The server owns the truth.** Resource data lives in TanStack Query's cache, fetched from the API. No copy in a global store.
 2. **Shared schemas, not duplicated rules.** Forms validate with the same Zod schemas the API uses.
 3. **Feature folders.** Everything about servers lives in `features/servers/`. Adding a service adds one folder.
-4. **Status is always visible.** Every resource shows its status as a badge, with a spinner while it changes.
-5. **The URL is state.** Filters, sorting, pages and the selected tab live in the URL, so any view can be shared or bookmarked.
-6. **Same origin as the API** ([ADR-0011](adr/0011-same-origin-console-and-api.md)). No CORS, simple cookies.
+4. **Atomic design.** Reusable UI lives in `ui/` as tokens → atoms → molecules → organisms → templates. Feature pages fill templates with data.
+5. **Status is always visible.** Every resource shows its status as a badge, with a spinner while it changes.
+6. **The URL is state.** Filters, sorting, pages and the selected tab live in the URL, so any view can be shared or bookmarked.
+7. **Same origin as the API** ([ADR-0011](adr/0011-same-origin-console-and-api.md)). No CORS, simple cookies.
 
 ## 2. Folder structure
 
@@ -56,28 +57,31 @@ apps/dashboard/
     │   │   └── components/JobLog.tsx       Phase 3
     │   ├── auth/                           Phase 5: LoginPage, useMe
     │   └── (Phase 4) networks/, volumes/, databases/, buckets/, load-balancers/, dns/
-    ├── components/             Shared, feature-agnostic UI
-    │   ├── StatusBadge.tsx
-    │   ├── ResourceTable.tsx   Phase 4: generic table driven by a column config
-    │   ├── PageHeader.tsx
-    │   ├── EmptyState.tsx
-    │   ├── ErrorAlert.tsx
-    │   ├── ConfirmDialog.tsx
-    │   └── CopyButton.tsx
+    ├── ui/                     Design system, atomic design (ADR-0012)
+    │   ├── tokens/             Colors, spacing, radius, fonts from the console design
+    │   ├── atoms/              Button, Input, Badge, Icon, Spinner, Link
+    │   ├── molecules/          StatusBadge, FormField, CopyField, SearchBox, KeyValue
+    │   ├── organisms/          ResourceTable, TopBar, SideNav, ConfirmDialog, EmptyState, PageHeader
+    │   └── templates/          ConsoleLayout, ListPage, DetailPage, Wizard
     ├── lib/
     │   ├── format.ts           Dates ("2 min ago"), bytes, durations
     │   └── use-url-state.ts    Read/write search params as typed state
     └── theme.ts                Mantine theme: colors, fonts, radius
 ```
 
-**Import rules**
+**Import rules** (enforced by dependency-cruiser, `npm run lint:deps`)
 
 | Folder | May import from |
 |---|---|
-| `features/x` | `components`, `api`, `lib`, `@mini-cloud/shared` |
-| `components` | `lib`, `@mini-cloud/shared` (never a feature) |
+| `features/x` | `ui`, `api`, `lib`, `@mini-cloud/shared` |
+| `ui/templates` | organisms, molecules, atoms, tokens |
+| `ui/organisms` | molecules, atoms, tokens |
+| `ui/molecules` | atoms, tokens |
+| `ui/atoms` | tokens |
+| `ui/*` | never `features`, `pages`, `api` or `app` |
 | `api` | `@mini-cloud/shared` |
-| A feature | Never another feature's internals. Shared pieces move to `components`. |
+| A feature | Never another feature. Shared pieces move down into `ui`. |
+| The console | Never `@mini-cloud/db`. It talks to the API only. |
 
 ## 3. Routes
 
@@ -218,7 +222,7 @@ If the connection drops, the browser reconnects and invalidates all resource que
 | Kit | Mantine components only. No second UI library. |
 | Theme | Defined once in `theme.ts`: primary color, fonts, radius, light and dark mode. |
 | Layout | `AppShell`: fixed sidebar of services (from the registry), header, content area with a max width. |
-| Feedback | Mantine notifications for success and failure of actions; `ErrorAlert` for page-level errors. |
+| Feedback | Mantine notifications for success and failure of actions; `ErrorAlert` (molecule) for page-level errors. |
 | Loading | Skeleton rows for tables, never a blank page. |
 | Empty | `EmptyState` with one sentence and the create button. |
 | Destructive actions | `ConfirmDialog` that asks the user to type the resource name before deleting. |

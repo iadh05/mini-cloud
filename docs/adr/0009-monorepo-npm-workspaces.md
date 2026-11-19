@@ -1,6 +1,6 @@
 # 0009. Monorepo with npm workspaces
 
-- Status: Proposed
+- Status: Accepted (2026-11-19, MC-201)
 - Date: 2026-11-17
 
 ## Context

@@ -24,7 +24,7 @@
 | Layer | Choice | Why | Alternatives considered | Status | ADR |
 |---|---|---|---|---|---|
 | Language | **TypeScript on Node.js** | Already installed; one language end to end | Go, Java/Spring, Python | Accepted | [0002](adr/0002-typescript-node-control-plane.md) |
-| Repo | **npm workspaces monorepo** | Shared types across apps, no extra tool | pnpm, Turborepo, Nx | Proposed | [0009](adr/0009-monorepo-npm-workspaces.md) |
+| Repo | **npm workspaces monorepo**, TypeScript 6.0.3 | Shared types across apps, no extra tool. TypeScript stays on 6.0 until typescript-eslint supports 7 | pnpm, Turborepo, Nx | Accepted | [0009](adr/0009-monorepo-npm-workspaces.md) |
 | API framework | **Fastify** | Fast, typed, built-in schema hooks, light | Express, NestJS, Hono | Proposed | [0010](adr/0010-fastify-zod-drizzle.md) |
 | Validation | **Zod** | One schema → API validation, form validation, TS types | Joi, Yup, TypeBox | Proposed | [0010](adr/0010-fastify-zod-drizzle.md) |
 | Database | **PostgreSQL** | One database for state, jobs and Terraform state | MySQL, SQLite | Proposed | [0006](adr/0006-postgres-for-everything.md) |
@@ -32,8 +32,9 @@
 | Job queue | Phase 2: table + `SKIP LOCKED`; Phase 3: **pg-boss** | No Redis needed; the locking mechanism stays visible | BullMQ (Redis), RabbitMQ | Proposed | [0006](adr/0006-postgres-for-everything.md) |
 | Logging | **Pino** | Fastify's default, JSON logs | Winston | Proposed | — |
 | Docker access (worker) | **dockerode** | Start, stop, logs and stats, where Terraform is a poor fit | Docker CLI via child process | Proposed | — |
-| Testing | **Vitest**; Playwright later | Fast, TypeScript-native | Jest | Proposed | — |
-| Lint + format | **Biome** | One fast tool instead of ESLint + Prettier | ESLint + Prettier | Proposed | — |
+| Testing | **Vitest** 5.1.1; Playwright later | Fast, TypeScript-native | Jest | Accepted | — |
+| Lint + format | **ESLint** 10.15 (typescript-eslint 8.73, strict type-checked) + **Prettier** 3.10 | Type-aware rules, the industry standard | Biome | Accepted | — |
+| Architecture rules | **dependency-cruiser** 18.8 | Fails the build when an import breaks a boundary: app → app, console → database, atomic levels | ESLint import rules | Accepted | [0012](adr/0012-atomic-design-console.md) |
 | Auth (Phase 5) | Own sessions + **argon2id**, hashed API keys | Built in-house to control the whole auth flow | Auth.js, Keycloak | Later | — |
 
 ## Dashboard
