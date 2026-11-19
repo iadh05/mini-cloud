@@ -12,9 +12,10 @@ Each file records one decision: the situation, what we chose, and what it costs 
 | [0006](0006-postgres-for-everything.md) | PostgreSQL for app state, job queue and Terraform state | Proposed | 2026-11-17 |
 | [0007](0007-own-servers-only.md) | Own servers only, no public cloud provider | Accepted | 2026-11-17 |
 | [0008](0008-generic-resources-table.md) | One generic resources table with a typed spec | Proposed | 2026-11-17 |
-| [0009](0009-monorepo-npm-workspaces.md) | Monorepo with npm workspaces | Proposed | 2026-11-17 |
+| [0009](0009-monorepo-npm-workspaces.md) | Monorepo with npm workspaces | Accepted | 2026-11-17 |
 | [0010](0010-fastify-zod-drizzle.md) | Fastify, Zod and Drizzle for the API | Proposed | 2026-11-17 |
 | [0011](0011-same-origin-console-and-api.md) | Serve the dashboard and the API from the same origin | Proposed | 2026-11-17 |
+| [0012](0012-atomic-design-console.md) | Atomic design for the console UI | Accepted | 2026-11-19 |
 
 **Statuses:** Proposed → Accepted → Superseded by NNNN, or Deprecated.
 

@@ -1,0 +1,24 @@
+# Platform services for local development. Tenant resources are created by Terraform, not here.
+name: mini-cloud
+
+services:
+  postgres:
+    image: postgres:18.7-alpine3.24
+    environment:
+      POSTGRES_DB: minicloud
+      POSTGRES_USER: minicloud
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U minicloud -d minicloud"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  pgdata:

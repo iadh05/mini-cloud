@@ -1,0 +1,13 @@
+{
+  "name": "@mini-cloud/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Schemas, types and constants shared by every app",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  }
+}

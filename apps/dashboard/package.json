@@ -1,0 +1,16 @@
+{
+  "name": "@mini-cloud/dashboard",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Web console (React + Vite from MC-208)",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@mini-cloud/shared": "*"
+  }
+}

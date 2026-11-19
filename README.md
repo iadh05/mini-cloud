@@ -27,31 +27,31 @@ Full list and reasons: [TECH-STACK.md](docs/TECH-STACK.md).
 
 ## Documentation
 
-| Document | What's in it |
-|---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How it's built: components, request flow, data model, config, security |
-| [docs/BACKEND.md](docs/BACKEND.md) | API and worker inside: layers, endpoints, errors, job loop, Terraform runner |
-| [docs/FRONTEND.md](docs/FRONTEND.md) | Dashboard inside: folders, routes, data layer, live updates, forms, UI rules |
-| [docs/CAPACITY.md](docs/CAPACITY.md) | Server sizes, host sizing formula, capacity check, host configuration |
-| [docs/INFRA.md](docs/INFRA.md) | How Node drives the network and subsystems: network layout, IP plan, Traefik, DNS, firewall |
-| [docs/TECH-STACK.md](docs/TECH-STACK.md) | Every technology, its version and why |
-| [docs/adr/](docs/adr/README.md) | Architecture decision records |
+| Document                                     | What's in it                                                                                |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How it's built: components, request flow, data model, config, security                      |
+| [docs/BACKEND.md](docs/BACKEND.md)           | API and worker inside: layers, endpoints, errors, job loop, Terraform runner                |
+| [docs/FRONTEND.md](docs/FRONTEND.md)         | Dashboard inside: folders, routes, data layer, live updates, forms, UI rules                |
+| [docs/CAPACITY.md](docs/CAPACITY.md)         | Server sizes, host sizing formula, capacity check, host configuration                       |
+| [docs/INFRA.md](docs/INFRA.md)               | How Node drives the network and subsystems: network layout, IP plan, Traefik, DNS, firewall |
+| [docs/TECH-STACK.md](docs/TECH-STACK.md)     | Every technology, its version and why                                                       |
+| [docs/adr/](docs/adr/README.md)              | Architecture decision records                                                               |
 
 ## Roadmap
 
-| Phase | | Milestone |
-|---|---|---|
-| 0 | Environment setup | |
-| 1 | Prototypes: containers, networks, storage, Terraform | |
-| 2 | First version: one button, one server | **M1 — It works** |
-| 3 | Make it solid | |
-| 4 | More services | **M2 — It looks like a cloud** |
-| 5 | Users, projects, permissions | |
-| 6 | Monitoring and metering | |
-| 7 | Move to a rented server | **M3 — It is online** |
-| 8 | Application services | |
-| 9 | Dedicated servers and real VMs | **M4 — It runs real machines** |
-| 10 | Scale and choose a direction | |
+| Phase |                                                      | Milestone                      |
+| ----- | ---------------------------------------------------- | ------------------------------ |
+| 0     | Environment setup                                    |                                |
+| 1     | Prototypes: containers, networks, storage, Terraform |                                |
+| 2     | First version: one button, one server                | **M1 — It works**              |
+| 3     | Make it solid                                        |                                |
+| 4     | More services                                        | **M2 — It looks like a cloud** |
+| 5     | Users, projects, permissions                         |                                |
+| 6     | Monitoring and metering                              |                                |
+| 7     | Move to a rented server                              | **M3 — It is online**          |
+| 8     | Application services                                 |                                |
+| 9     | Dedicated servers and real VMs                       | **M4 — It runs real machines** |
+| 10    | Scale and choose a direction                         |                                |
 
 ## Quick start
 
