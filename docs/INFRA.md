@@ -370,7 +370,7 @@ infra/platform/coredns/  Corefile                              (Phase 4)
 
 | Step | Manual prototype |
 |---|---|
-| [MC-206](tickets/PHASE-2.md#mc-206--traefik-in-compose) | Traefik routes a hostname to a container |
+| Phase 2 | Traefik routes a hostname to a container |
 | Phase 4 | Write one Traefik file by hand and one nftables file by hand before the worker generates them |
 
 Rule from the README: prototype it manually first, then automate it.

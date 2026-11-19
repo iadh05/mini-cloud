@@ -4,9 +4,9 @@
 |---|---|
 | Status | Draft v1 |
 | Last updated | 2026-11-17 |
-| Related | [Spec](SPEC.md) · [Backend](BACKEND.md) · [Frontend](FRONTEND.md) · [Tech stack](TECH-STACK.md) · [Decisions](adr/) |
+| Related | [Backend](BACKEND.md) · [Frontend](FRONTEND.md) · [Tech stack](TECH-STACK.md) · [Decisions](adr/) |
 
-This document describes **how** Mini Cloud is built, at the system level. The [spec](SPEC.md) describes **what** it does. Inside each app:
+This document describes **how** Mini Cloud is built, at the system level. The [README](../README.md) describes **what** it does. Inside each app:
 
 - [BACKEND.md](BACKEND.md): API layers, endpoints, errors, worker job loop, handlers, Terraform runner, tests.
 - [FRONTEND.md](FRONTEND.md): dashboard folders, routes, data layer, live updates, forms, UI rules, tests.
@@ -122,7 +122,7 @@ mini-cloud/
 │   │   ├── network/    (Phase 4)
 │   │   └── ...
 │   └── platform/       Compose files and config for Traefik, MinIO, CoreDNS…
-├── docs/               Spec, architecture, ADRs, tickets
+├── docs/               Architecture, backend, frontend, ADRs
 ├── var/                Runtime data, git-ignored (Terraform run dirs, local state)
 ├── docker-compose.yml  Starts the whole platform
 ├── .env.example        Every setting, with safe example values

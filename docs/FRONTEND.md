@@ -5,7 +5,7 @@
 | Status | Draft v1 |
 | Last updated | 2026-11-17 |
 | Covers | `apps/dashboard` (the console) |
-| Related | [Architecture](ARCHITECTURE.md) · [Backend](BACKEND.md) · [Spec](SPEC.md) · ADRs [0003](adr/0003-react-dashboard.md), [0011](adr/0011-same-origin-console-and-api.md) |
+| Related | [Architecture](ARCHITECTURE.md) · [Backend](BACKEND.md) · ADRs [0003](adr/0003-react-dashboard.md), [0011](adr/0011-same-origin-console-and-api.md) |
 
 The dashboard is a **thin client**. It shows state and sends requests. Every rule (validation, permissions, what can change) lives in the backend or in `packages/shared`. If the dashboard disappeared, the API and CLI would still do everything.
 
@@ -207,7 +207,7 @@ If the connection drops, the browser reconnects and invalidates all resource que
 ## 6. Forms
 
 - Mantine `useForm` with a Zod resolver, using `createServerBody` from `@mini-cloud/shared`.
-- Field errors appear as the user types, before any request is sent ([FR-22](SPEC.md#63-dashboard)).
+- Field errors appear as the user types, before any request is sent.
 - Server errors are mapped back to fields: `409 name_taken` → error under **Name**; `400 validation_failed` → each field in `details`.
 - Submit button shows a loader and is disabled while the request runs. On success: close the modal, show a notification, highlight the new row.
 

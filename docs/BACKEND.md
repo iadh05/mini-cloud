@@ -5,7 +5,7 @@
 | Status | Draft v1 |
 | Last updated | 2026-11-17 |
 | Covers | `apps/api`, `apps/worker`, `packages/shared`, `packages/db` |
-| Related | [Architecture](ARCHITECTURE.md) · [Frontend](FRONTEND.md) · [Spec](SPEC.md) · ADRs [0002](adr/0002-typescript-node-control-plane.md), [0004](adr/0004-terraform-provisioning.md), [0006](adr/0006-postgres-for-everything.md), [0008](adr/0008-generic-resources-table.md), [0010](adr/0010-fastify-zod-drizzle.md), [0011](adr/0011-same-origin-console-and-api.md) |
+| Related | [Architecture](ARCHITECTURE.md) · [Frontend](FRONTEND.md) · ADRs [0002](adr/0002-typescript-node-control-plane.md), [0004](adr/0004-terraform-provisioning.md), [0006](adr/0006-postgres-for-everything.md), [0008](adr/0008-generic-resources-table.md), [0010](adr/0010-fastify-zod-drizzle.md), [0011](adr/0011-same-origin-console-and-api.md) |
 
 The backend is two programs that never call each other directly. They meet in the database.
 
@@ -373,3 +373,33 @@ The fake Terraform runner is why the runner is behind an interface: most worker 
 | `MASTER_KEY` | api, worker | (random, 32 bytes, base64) | 5 |
 
 Every variable appears in `.env.example` with a safe example value.
+
+## 8. Changes required by the console v3 design (2026-11-19)
+
+The console was redesigned (cloud-console layout, 39 services, full journey from sign-up to account closure). The backend must change to support it. These items replace the older assumptions in this document where they conflict.
+
+**Resource model**
+- A **service registry**: each of the 39 services registers its type, Zod spec schema, Terraform module (or direct driver), allowed actions and status machine. Routes `/v1/{type}` are generated from it (already planned for Phase 4; now the core of the design).
+- Every resource gets `deletion_protection` and a **soft-delete** state (`deleted` with `purge_at`, default 7 days, final snapshot for data).
+- Resources link to each other (`links` table): app → database injects `DATABASE_URL`, function → queue trigger, gateway route → target.
+
+**Deployments (new)**
+- Tables `deployments` (resource, commit, image digest, status, steps, logs pointer, who) and `builds`.
+- Pipeline as jobs: clone → build (sandboxed) → scan → push → pre-deploy → start + health check → switch traffic. Any failed step leaves the previous deployment serving.
+- Rollback = redeploy a stored image digest with its settings; pauses auto-deploy.
+- Git integration: GitHub App installations and signed webhooks; preview environments per pull request.
+
+**Accounts and access**
+- Hierarchy: organisation → projects. Account states: active → past due → suspended → closed → purged.
+- Roles: Owner, Member, Viewer, Biller. MFA (passkey, TOTP) mandatory for owners; sessions list.
+- API tokens with scopes (never above the user's role) and expiry; stored as hashes.
+- Workload identity: short-lived credentials for apps instead of static keys.
+- Audit log for every control-plane call, visible to the tenant.
+
+**Operations**
+- Quotas per project with increase requests; budgets and alerts; usage metering.
+- Central logs per project (search, live tail, retention per plan).
+- Security findings (image scans, posture rules) as a resource type.
+- Object store: MinIO Community Edition is no longer maintained; choose its replacement in an ADR before Phase 4.
+
+The console design covers every screen.

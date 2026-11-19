@@ -4,7 +4,7 @@ A small, self-hosted cloud platform built from scratch on servers I control: com
 
 Open the dashboard, click **Create server**, and a real server starts on infrastructure the platform controls. Later: buckets, databases, private networks, load balancers, users and permissions, monitoring, billing, functions, and real virtual machines on dedicated servers.
 
-> **Status:** prototyping the building blocks (containers, resource limits, networks, volumes, Terraform). Platform code starts with Milestone 1. See the [roadmap](#roadmap) and the [tickets](docs/tickets/README.md).
+> **Status:** prototyping the building blocks (containers, resource limits, networks, volumes, Terraform). Platform code starts with Milestone 1. See the [roadmap](#roadmap).
 
 ## How it works
 
@@ -29,7 +29,6 @@ Full list and reasons: [TECH-STACK.md](docs/TECH-STACK.md).
 
 | Document | What's in it |
 |---|---|
-| [docs/SPEC.md](docs/SPEC.md) | What the platform does: goals, users, services, requirements, milestones |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How it's built: components, request flow, data model, config, security |
 | [docs/BACKEND.md](docs/BACKEND.md) | API and worker inside: layers, endpoints, errors, job loop, Terraform runner |
 | [docs/FRONTEND.md](docs/FRONTEND.md) | Dashboard inside: folders, routes, data layer, live updates, forms, UI rules |
@@ -37,7 +36,6 @@ Full list and reasons: [TECH-STACK.md](docs/TECH-STACK.md).
 | [docs/INFRA.md](docs/INFRA.md) | How Node drives the network and subsystems: network layout, IP plan, Traefik, DNS, firewall |
 | [docs/TECH-STACK.md](docs/TECH-STACK.md) | Every technology, its version and why |
 | [docs/adr/](docs/adr/README.md) | Architecture decision records |
-| [docs/tickets/](docs/tickets/README.md) | Work broken into tickets, by phase |
 
 ## Roadmap
 
@@ -57,7 +55,7 @@ Full list and reasons: [TECH-STACK.md](docs/TECH-STACK.md).
 
 ## Quick start
 
-_Filled in at the end of Phase 2 (ticket MC-209)._
+_Filled in at the end of Phase 2._
 
 ## Engineering principles
 

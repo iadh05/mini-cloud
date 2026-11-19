@@ -4,7 +4,7 @@
 |---|---|
 | Status | Draft v1 |
 | Last updated | 2026-11-17 |
-| Related | [Spec](SPEC.md) (FR-14, NFR-4, NFR-5) · [Architecture](ARCHITECTURE.md) · [Backend](BACKEND.md) |
+| Related | [Architecture](ARCHITECTURE.md) · [Backend](BACKEND.md) |
 
 How we decide **what sizes users can pick**, **how big each host must be**, and **how each host is configured**. Every number here starts as an estimate and is replaced by a measurement at the phase shown.
 
