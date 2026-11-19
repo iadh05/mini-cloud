@@ -7,4 +7,4 @@ if (!url) {
   process.exit(1);
 }
 await runMigrations(url);
-console.warn("migrations applied");
+console.warn("migrations applied, service catalog synced");

@@ -4,7 +4,9 @@ Single source of truth for validation and types, used by the API, the worker and
 
 ## Status
 
-Only `PLATFORM_NAME` so far. Server schema arrives in MC-203.
+- `lifecycle.ts`: resource statuses, job actions, job states.
+- `services.ts`: the **service catalog**, all 39 services (`SERVICES`, `ServiceId`, `findService`). The `services` table and `resources.type` follow it. Add or change a service here first.
+- Server schema arrives in MC-203.
 
 ## Rules
 

@@ -8,6 +8,13 @@
       "when": 1795127149599,
       "tag": "0000_resources_and_jobs",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795128541239,
+      "tag": "0001_service_catalog",
+      "breakpoints": true
     }
   ]
 }

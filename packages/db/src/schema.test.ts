@@ -1,9 +1,11 @@
 import { randomBytes } from "node:crypto";
+import { SERVICES } from "@mini-cloud/shared";
 import { eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createDb } from "./client.ts";
 import { runMigrations } from "./migrate.ts";
-import { jobs, resources } from "./schema.ts";
+import { syncServiceCatalog } from "./catalog.ts";
+import { jobs, resources, services } from "./schema.ts";
 
 const url = process.env.DATABASE_URL;
 
@@ -37,6 +39,33 @@ describe.skipIf(!url)("resources and jobs tables", () => {
     type: "server",
     name,
     spec: { image: "nginx", port: 80 },
+  });
+
+  it("syncs the whole service catalog on migration", async () => {
+    const rows = await conn.db.select().from(services);
+    expect(rows).toHaveLength(SERVICES.length);
+    expect(rows.find((s) => s.id === "server")).toMatchObject({
+      name: "Servers",
+      path: "servers",
+      status: "beta",
+      enabled: true,
+    });
+  });
+
+  it("re-syncs without touching the operator's enabled flag", async () => {
+    await conn.db
+      .update(services)
+      .set({ enabled: false, name: "old" })
+      .where(eq(services.id, "cdn"));
+    await expect(syncServiceCatalog(conn.db)).resolves.toBe(SERVICES.length);
+    const [cdn] = await conn.db.select().from(services).where(eq(services.id, "cdn"));
+    expect(cdn).toMatchObject({ name: "CDN", enabled: false });
+  });
+
+  it("rejects a resource whose type is not in the catalog", async () => {
+    await expect(
+      conn.db.insert(resources).values({ type: "spaceship", name: "x-1", spec: {} }),
+    ).rejects.toThrow();
   });
 
   it("creates a resource with defaults", async () => {

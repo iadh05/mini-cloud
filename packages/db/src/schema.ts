@@ -1,4 +1,10 @@
-import { JOB_ACTIONS, JOB_STATES, RESOURCE_STATUSES } from "@mini-cloud/shared";
+import {
+  JOB_ACTIONS,
+  JOB_STATES,
+  RESOURCE_STATUSES,
+  SERVICE_CATEGORIES,
+  SERVICE_STATUSES,
+} from "@mini-cloud/shared";
 import { sql } from "drizzle-orm";
 import {
   boolean,
@@ -22,6 +28,31 @@ const timestamps = {
 };
 
 /**
+ * The service catalog, synced from `SERVICES` in `@mini-cloud/shared` on every migration.
+ * Operators can switch a service off with `enabled`; the sync never touches that column.
+ */
+export const services = pgTable(
+  "services",
+  {
+    id: text("id").primaryKey(),
+    number: integer("number").notNull().unique(),
+    name: text("name").notNull(),
+    category: text("category", { enum: SERVICE_CATEGORIES }).notNull(),
+    path: text("path").notNull().unique(),
+    aws: text("aws").notNull(),
+    engine: text("engine").notNull(),
+    phase: integer("phase").notNull(),
+    status: text("status", { enum: SERVICE_STATUSES }).notNull().default("planned"),
+    enabled: boolean("enabled").notNull().default(true),
+    ...timestamps,
+  },
+  (t) => [
+    check("services_category_ck", sql`${t.category} IN (${sqlList(SERVICE_CATEGORIES)})`),
+    check("services_status_ck", sql`${t.status} IN (${sqlList(SERVICE_STATUSES)})`),
+  ],
+);
+
+/**
  * Every resource of every type (ADR-0008). Common columns are typed;
  * `spec` (desired state) and `outputs` (results) are JSONB validated by the type's Zod schema.
  */
@@ -31,7 +62,9 @@ export const resources = pgTable(
     id: uuid("id")
       .primaryKey()
       .default(sql`uuidv7()`),
-    type: text("type").notNull(),
+    type: text("type")
+      .notNull()
+      .references(() => services.id),
     name: text("name").notNull(),
     spec: jsonb("spec").$type<Record<string, unknown>>().notNull(),
     status: text("status", { enum: RESOURCE_STATUSES }).notNull().default("pending"),
@@ -88,6 +121,7 @@ export const jobs = pgTable(
   ],
 );
 
+export type Service = typeof services.$inferSelect;
 export type Resource = typeof resources.$inferSelect;
 export type NewResource = typeof resources.$inferInsert;
 export type Job = typeof jobs.$inferSelect;
