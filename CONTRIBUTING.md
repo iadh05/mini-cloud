@@ -44,14 +44,14 @@ Small commits that each still pass the checks.
 npm run check      # format, lint, architecture rules, typecheck, tests
 ```
 
-| Check          | Tool                                              | Catches                                                                          |
-| -------------- | ------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `format:check` | Prettier                                          | Formatting differences                                                           |
-| `lint`         | ESLint + typescript-eslint (strict, type-checked) | Bugs and unsafe code                                                             |
-| `lint:claude`  | script                                            | A workspace or feature folder without its `CLAUDE.md`                            |
-| `lint:deps`    | dependency-cruiser                                | Broken boundaries: app → app, console → database, atomic levels going up, cycles |
-| `typecheck`    | TypeScript (strict)                               | Type errors in every workspace                                                   |
-| `test`         | Vitest                                            | Failing tests                                                                    |
+| Check          | Tool                                              | Catches                                                                                                                                               |
+| -------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `format:check` | Prettier                                          | Formatting differences                                                                                                                                |
+| `lint`         | ESLint + typescript-eslint (strict, type-checked) | Bugs and unsafe code                                                                                                                                  |
+| `lint:claude`  | script                                            | A workspace or feature without a `CLAUDE.md`, a `CLAUDE.md` without a docs link, a feature not linking to `docs/services/<service>.md`, a broken link |
+| `lint:deps`    | dependency-cruiser                                | Broken boundaries: app → app, console → database, atomic levels going up, cycles                                                                      |
+| `typecheck`    | TypeScript (strict)                               | Type errors in every workspace                                                                                                                        |
+| `test`         | Vitest                                            | Failing tests                                                                                                                                         |
 
 The same checks run in CI on every pull request. A red CI blocks the merge.
 

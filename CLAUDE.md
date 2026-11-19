@@ -4,15 +4,16 @@ A small self-hosted cloud: a REST API stores desired state, a worker turns jobs 
 
 ## Map
 
-| Path                    | What                                         | Guide                                                  |
-| ----------------------- | -------------------------------------------- | ------------------------------------------------------ |
-| `apps/api`              | Fastify REST API                             | [apps/api/CLAUDE.md](apps/api/CLAUDE.md)               |
-| `apps/worker`           | Provisioner: job loop + Terraform runner     | [apps/worker/CLAUDE.md](apps/worker/CLAUDE.md)         |
-| `apps/dashboard`        | React console                                | [apps/dashboard/CLAUDE.md](apps/dashboard/CLAUDE.md)   |
-| `apps/dashboard/src/ui` | Design system (atomic design)                | [ui/CLAUDE.md](apps/dashboard/src/ui/CLAUDE.md)        |
-| `packages/shared`       | Zod schemas, types, constants                | [packages/shared/CLAUDE.md](packages/shared/CLAUDE.md) |
-| `packages/db`           | Drizzle schema, migrations, client           | [packages/db/CLAUDE.md](packages/db/CLAUDE.md)         |
-| `docs/`                 | Architecture, backend, frontend, infra, ADRs | read before changing a design                          |
+| Path                    | What                                                                  | Guide                                                  |
+| ----------------------- | --------------------------------------------------------------------- | ------------------------------------------------------ |
+| `apps/api`              | Fastify REST API                                                      | [apps/api/CLAUDE.md](apps/api/CLAUDE.md)               |
+| `apps/worker`           | Provisioner: job loop + Terraform runner                              | [apps/worker/CLAUDE.md](apps/worker/CLAUDE.md)         |
+| `apps/dashboard`        | React console                                                         | [apps/dashboard/CLAUDE.md](apps/dashboard/CLAUDE.md)   |
+| `apps/dashboard/src/ui` | Design system (atomic design)                                         | [ui/CLAUDE.md](apps/dashboard/src/ui/CLAUDE.md)        |
+| `packages/shared`       | Zod schemas, types, constants                                         | [packages/shared/CLAUDE.md](packages/shared/CLAUDE.md) |
+| `packages/db`           | Drizzle schema, migrations, client                                    | [packages/db/CLAUDE.md](packages/db/CLAUDE.md)         |
+| `docs/`                 | Architecture, backend, frontend, infra, ADRs                          | read before changing a design                          |
+| `docs/services/`        | One doc per service: spec, API, status machine, console, provisioning | [docs/services/README.md](docs/services/README.md)     |
 
 ## Commands
 
@@ -31,4 +32,5 @@ npm run db:up        # Postgres in Docker, waits until healthy
 - TypeScript strict; no `any`, no non-null `!` without a comment saying why.
 - Pin exact versions. No `latest` image tags.
 - Secrets only in `.env` (git-ignored). Never log them.
-- Every feature folder and workspace has its own `CLAUDE.md`. Create one when you add a feature (`npm run check` fails without it) and update it when the feature changes.
+- Every workspace and every feature folder has its own `CLAUDE.md` that links to its docs. A feature folder (`apps/*/src/features/<service>/`) must link to [docs/services/\<service\>.md](docs/services/README.md). `npm run lint:claude` fails when the file, the link or the linked doc is missing.
+- New service: write `docs/services/<service>.md` from the [template](docs/services/_template.md) first, then the code.

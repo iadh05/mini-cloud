@@ -25,6 +25,12 @@ npm run dev -w @mini-cloud/api
 npm run typecheck -w @mini-cloud/api
 ```
 
-## Read first
+## Features
 
-`docs/BACKEND.md`, `docs/ARCHITECTURE.md`.
+One folder per service: `src/features/<service>/` (routes, service, repository). Each has a `CLAUDE.md` linking to `docs/services/<service>.md`.
+
+## Docs
+
+- [Backend](../../docs/BACKEND.md)
+- [Architecture](../../docs/ARCHITECTURE.md)
+- [Services](../../docs/services/README.md)

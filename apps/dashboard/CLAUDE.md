@@ -28,9 +28,11 @@ src/
 ## Adding a feature
 
 1. `src/features/<service>/` with `api.ts`, `pages/`, `components/`.
-2. Add `src/features/<service>/CLAUDE.md` (what it shows, API endpoints used, status machine).
+2. Add `src/features/<service>/CLAUDE.md` with a link to `docs/services/<service>.md` (required, checked by `npm run lint:claude`).
 3. `npm run check`.
 
-## Read first
+## Docs
 
-`docs/FRONTEND.md`, `docs/adr/0012-atomic-design-console.md`.
+- [Frontend](../../docs/FRONTEND.md)
+- [ADR-0012 atomic design](../../docs/adr/0012-atomic-design-console.md)
+- [Services](../../docs/services/README.md)

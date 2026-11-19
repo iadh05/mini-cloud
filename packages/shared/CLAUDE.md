@@ -12,3 +12,8 @@ Only `PLATFORM_NAME` so far. Server schema arrives in MC-203.
 - No runtime dependencies on Node or browser APIs: this code runs in both.
 - Depends on no other workspace package (enforced: `shared-is-a-leaf`).
 - Every schema has Vitest tests for valid and invalid inputs.
+
+## Docs
+
+- [Services](../../docs/services/README.md): each service doc lists its spec fields and rules
+- [ADR-0010 Fastify, Zod, Drizzle](../../docs/adr/0010-fastify-zod-drizzle.md)

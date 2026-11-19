@@ -20,3 +20,8 @@ Nothing in `ui/` imports from `features/`, `api/` or `app/`.
 - No data fetching and no feature names inside `ui/`. Data comes in through props.
 - Colors, spacing, radius and fonts come from `tokens/`, never hard-coded.
 - Every interactive element is keyboard reachable and has an accessible name.
+
+## Docs
+
+- [ADR-0012 atomic design](../../../../docs/adr/0012-atomic-design-console.md)
+- [Frontend](../../../../docs/FRONTEND.md)

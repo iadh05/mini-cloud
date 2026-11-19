@@ -24,6 +24,12 @@ Stub. Built in MC-207.
 npm run dev -w @mini-cloud/worker
 ```
 
-## Read first
+## Features
 
-`docs/BACKEND.md` (worker section), `docs/INFRA.md`.
+One handler per service: `src/features/<service>/`. Each has a `CLAUDE.md` linking to `docs/services/<service>.md`.
+
+## Docs
+
+- [Backend, worker section](../../docs/BACKEND.md)
+- [Infra](../../docs/INFRA.md)
+- [Services](../../docs/services/README.md)

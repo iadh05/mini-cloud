@@ -19,6 +19,8 @@ Stub. `resources` and `jobs` tables arrive in MC-202.
 npm run db:up        # from the repo root
 ```
 
-## Read first
+## Docs
 
-`docs/ARCHITECTURE.md` (data model), `docs/adr/0006-postgres-for-everything.md`, `docs/adr/0008-generic-resources-table.md`.
+- [Architecture, data model](../../docs/ARCHITECTURE.md)
+- [ADR-0006 Postgres for everything](../../docs/adr/0006-postgres-for-everything.md)
+- [ADR-0008 generic resources table](../../docs/adr/0008-generic-resources-table.md)
