@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { resourceResponse } from "./api.ts";
 import { resourceName } from "./resource-name.ts";
 
 /**
@@ -48,3 +49,14 @@ export type CreateServerInput = z.infer<typeof createServerInput>;
 export function imageRef(image: ServerImage): string {
   return SERVER_IMAGES[image].ref;
 }
+
+/** Results the worker writes once the server runs; empty while it is pending. */
+export const serverOutputs = z.object({
+  url: z.url().optional(),
+  containerId: z.string().optional(),
+});
+export type ServerOutputs = z.infer<typeof serverOutputs>;
+
+/** A server as the API returns it. */
+export const serverResource = resourceResponse(serverSpec, serverOutputs);
+export type ServerResource = z.infer<typeof serverResource>;
