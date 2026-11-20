@@ -31,3 +31,6 @@ crash.log
 .idea/
 .DS_Store
 Thumbs.db
+
+# Modules do not pin providers; the root that calls them does
+infra/modules/**/.terraform.lock.hcl

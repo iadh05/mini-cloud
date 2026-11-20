@@ -59,7 +59,12 @@ Errors use the standard shape: `400` validation, `404` not found, `409` name tak
 3. `terraform init` and `terraform apply`.
 4. Writes `containerId` and `url` to `outputs`, status `running`. On error: status `failed` with the message.
 
-Container: named `mc-server-<short-id>`, on network `mc-tenants`, Traefik labels route `<name>.<BASE_DOMAIN>` to `port`, label `mc.resource-id`.
+Container (module `infra/modules/server`):
+
+- Name `mc-server-<last 12 hex digits of the id>` (UUIDv7 starts with a timestamp, so the end is the unique part).
+- Network `mc-tenants` (created by the platform). Traefik labels route `<name>.<BASE_DOMAIN>` to `port`.
+- Labels `mc.resource-id`, `mc.service=server`, `mc.name`.
+- Restart policy `unless-stopped`: Docker restarts a crashed server by itself.
 
 ## Console
 
@@ -71,7 +76,8 @@ Container: named `mc-server-<short-id>`, on network `mc-tenants`, Traefik labels
 
 ## Limits and security
 
-- All capabilities dropped, `no-new-privileges`, memory limit per size.
+- All Linux capabilities dropped, then only what the image needs added back (measured per image, in `SERVER_IMAGES`): nginx `CHOWN SETUID SETGID`, caddy `NET_BIND_SERVICE`, httpd and whoami none.
+- `no-new-privileges`, memory limit (128 MiB by default) with swap disabled.
 - Only images from the allow-list.
 - No host ports in Phase 2: traffic only through Traefik.
 - Capacity check on create from Phase 3 (`422 insufficient_capacity`).
