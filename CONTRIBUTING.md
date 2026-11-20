@@ -96,7 +96,9 @@ Runs on every pull request and on every push to `main`. All jobs must be green t
 ```bash
 cp .env.example .env       # then change the passwords
 npm install
-npm run db:up              # Postgres, waits until healthy
+npm run platform:up        # Postgres + Traefik, waits until healthy
+npm run db:migrate         # tables and the service catalog
+npm run smoke:routing      # optional: check http://<name>.mc.localhost routing
 npm run check
 ```
 

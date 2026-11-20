@@ -105,13 +105,18 @@ jobs:
           done
 
   compose:
-    name: Platform starts (Compose)
+    name: Platform starts and routes (Compose)
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - run: cp .env.example .env
       - run: docker compose config --quiet
-      - run: docker compose up -d --wait postgres
+      - name: Start Postgres and Traefik, wait until healthy
+        run: docker compose up -d --wait
       - run: docker compose ps
+      - name: Labelled containers are routed, others are not
+        run: bash scripts/smoke-routing.sh
+      - if: failure()
+        run: docker compose logs traefik
       - if: always()
         run: docker compose down -v
