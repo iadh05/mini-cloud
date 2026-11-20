@@ -106,6 +106,8 @@ export const jobs = pgTable(
     runAfter: timestamp("run_after", { withTimezone: true }).notNull().defaultNow(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     startedAt: timestamp("started_at", { withTimezone: true }),
+    /** Last "still working" signal from the worker that owns the job. */
+    heartbeatAt: timestamp("heartbeat_at", { withTimezone: true }),
     finishedAt: timestamp("finished_at", { withTimezone: true }),
   },
   (t) => [
