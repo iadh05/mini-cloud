@@ -108,7 +108,7 @@ module.exports = {
     enhancedResolveOptions: {
       exportsFields: ["exports"],
       conditionNames: ["import", "require", "node", "default", "types"],
-      extensions: [".ts", ".tsx", ".js", ".cjs", ".mjs", ".json"],
+      extensions: [".ts", ".tsx", ".js", ".cjs", ".mjs", ".json", ".css"],
       mainFields: ["module", "main", "types"],
     },
     reporterOptions: { text: { highlightFocused: true } },

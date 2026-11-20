@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Status | Draft v1 |
-| Last updated | 2026-11-17 |
+| Last updated | 2026-11-20 |
 | Covers | `apps/dashboard` (the console) |
 | Related | [Architecture](ARCHITECTURE.md) · [Backend](BACKEND.md) · ADRs [0003](adr/0003-react-dashboard.md), [0011](adr/0011-same-origin-console-and-api.md) |
 
@@ -28,16 +28,15 @@ apps/dashboard/
 ├── index.html
 ├── vite.config.ts             Dev proxy: /v1 → http://localhost:3000
 └── src/
-    ├── main.tsx                Mounts <App />
+    ├── main.tsx                Mounts the router inside <Providers />
     ├── app/
-    │   ├── App.tsx             Providers + router
     │   ├── providers.tsx       MantineProvider, QueryClientProvider, Notifications
-    │   ├── router.tsx          Route table (see §3)
+    │   ├── routes.tsx          Route table (see §3)
     │   ├── query-client.ts     QueryClient defaults (retry, staleTime)
     │   └── layout/
-    │       ├── AppLayout.tsx   Mantine AppShell: sidebar + header + <Outlet />
-    │       ├── Sidebar.tsx     Service navigation, generated from the resource registry
-    │       └── Header.tsx      Project switcher and user menu (Phase 5)
+    │       ├── ConsoleShell.tsx  ConsoleLayout + TopBar + SideNav built from the service catalog
+    │       ├── NotFoundPage.tsx
+    │       └── RouteError.tsx  Crash panel shown inside the layout
     ├── api/
     │   ├── client.ts           fetch wrapper: JSON, credentials, ApiError
     │   ├── errors.ts           ApiError class built from the FR-31 body
@@ -66,7 +65,7 @@ apps/dashboard/
     ├── lib/
     │   ├── format.ts           Dates ("2 min ago"), bytes, durations
     │   └── use-url-state.ts    Read/write search params as typed state
-    └── theme.ts                Mantine theme: colors, fonts, radius
+    └── ui/theme.ts             Mantine theme built from the tokens
 ```
 
 **Import rules** (enforced by dependency-cruiser, `npm run lint:deps`)
@@ -89,7 +88,7 @@ apps/dashboard/
 |---|---|---|
 | `/` | Redirects to `/servers` | 2 |
 | `/servers` | Servers list + **Create server** button | 2 |
-| `/servers/new` | Create form (a modal over the list) | 2 |
+| `/servers/new` | Create form (its own page, back to the list on success) | 2 |
 | `/servers/:id` | Detail: overview, outputs, jobs, logs | 3 |
 | `/networks`, `/volumes`, `/databases`, `/buckets`, `/load-balancers`, `/dns` | One list + detail per service | 4 |
 | `/login`, `/signup` | Authentication | 5 |
@@ -106,13 +105,14 @@ Each route has an `errorElement`, so a crash in one page shows an error panel in
 flowchart TD
     App --> Providers
     Providers --> Router
-    Router --> AppLayout
-    AppLayout --> Sidebar
-    AppLayout --> Header
-    AppLayout --> ServersListPage
+    Router --> ConsoleShell
+    ConsoleShell --> SideNav
+    ConsoleShell --> TopBar
+    ConsoleShell --> ServersListPage
+    ConsoleShell --> CreateServerPage
     ServersListPage --> PageHeader
     ServersListPage --> ServersTable
-    ServersListPage --> CreateServerModal[CreateServerForm in a modal]
+    CreateServerPage --> CreateServerForm
     ServersTable --> StatusBadge
     ServersTable --> CopyButton
     ServersTable --> EmptyState
@@ -127,7 +127,7 @@ flowchart TD
 |---|---|---|
 | **Server state** | The list of servers, a server's status | TanStack Query cache |
 | **URL state** | Current filter, page cursor, selected tab | Search params (`use-url-state.ts`) |
-| **UI state** | Is the modal open, form field values | `useState` / Mantine form, inside the component |
+| **UI state** | Is the menu open, form field values | `useState` / Mantine form, inside the component |
 
 There is no global store (no Redux, no Zustand). If a real need appears, it gets an ADR.
 
@@ -213,7 +213,7 @@ If the connection drops, the browser reconnects and invalidates all resource que
 - Mantine `useForm` with a Zod resolver, using `createServerBody` from `@mini-cloud/shared`.
 - Field errors appear as the user types, before any request is sent.
 - Server errors are mapped back to fields: `409 name_taken` → error under **Name**; `400 validation_failed` → each field in `details`.
-- Submit button shows a loader and is disabled while the request runs. On success: close the modal, show a notification, highlight the new row.
+- Submit button shows a loader and is disabled while the request runs. On success: go back to the list and show a notification; the new row is at the top.
 
 ## 7. UI system
 

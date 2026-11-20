@@ -41,14 +41,14 @@
 
 | Layer | Choice | Why | Status | ADR |
 |---|---|---|---|---|
-| Framework | **React + TypeScript** | Largest ecosystem for dashboards | Accepted | [0003](adr/0003-react-dashboard.md) |
-| Build tool | **Vite** | Fast dev server, simple config | Accepted | [0003](adr/0003-react-dashboard.md) |
-| Server state | **TanStack Query** | Caching, polling, refetch on focus | Proposed | [0003](adr/0003-react-dashboard.md) |
-| Routing | **React Router** | Standard, simple | Proposed | [0003](adr/0003-react-dashboard.md) |
-| UI kit | **Mantine** | Tables, forms, notifications, charts in one kit | Proposed | [0003](adr/0003-react-dashboard.md) |
-| Forms | Mantine Form + Zod | Same validation as the API | Proposed | — |
+| Framework | **React** 19.3 + TypeScript | Largest ecosystem for dashboards | Accepted | [0003](adr/0003-react-dashboard.md) |
+| Build tool | **Vite** 8.3 (`@vitejs/plugin-react` 6.3) | Fast dev server, simple config | Accepted | [0003](adr/0003-react-dashboard.md) |
+| Server state | **TanStack Query** 5.107 | Caching, polling, refetch on focus | Accepted | [0003](adr/0003-react-dashboard.md) |
+| Routing | **React Router** 8.5 | Standard, simple | Accepted | [0003](adr/0003-react-dashboard.md) |
+| UI kit | **Mantine** 9.8 (+ Tabler icons 3.51) | Tables, forms, notifications, charts in one kit | Accepted | [0003](adr/0003-react-dashboard.md) |
+| Forms | Mantine Form + the shared Zod schemas | Same validation as the API | Accepted | — |
 | Live updates | Polling (Phase 2) → SSE (Phase 3) | Start simple | Proposed | — |
-| Component tests | **Vitest + React Testing Library + MSW** | Test components against a fake API | Proposed | — |
+| Component tests | **Vitest + React Testing Library** 16.3 + **MSW** 3.0, jsdom 31 | Test components against a fake API | Accepted | — |
 | Serving | Same origin as the API: Vite proxy in dev, Traefik in Compose | No CORS, simple cookies | Proposed | [0011](adr/0011-same-origin-console-and-api.md) |
 
 ## Data plane and infrastructure

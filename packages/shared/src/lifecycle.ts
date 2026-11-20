@@ -13,6 +13,21 @@ export const RESOURCE_STATUSES = [
 ] as const;
 export type ResourceStatus = (typeof RESOURCE_STATUSES)[number];
 
+/** Statuses the worker is about to change; the console polls while one is shown. */
+export const TRANSITIONAL_STATUSES = [
+  "pending",
+  "provisioning",
+  "updating",
+  "starting",
+  "stopping",
+  "deleting",
+] as const satisfies readonly ResourceStatus[];
+
+export function isTransitional(status: ResourceStatus): boolean {
+  const transitional: readonly ResourceStatus[] = TRANSITIONAL_STATUSES;
+  return transitional.includes(status);
+}
+
 /** What a job asks the worker to do. */
 export const JOB_ACTIONS = ["create", "update", "delete", "start", "stop", "restart"] as const;
 export type JobAction = (typeof JOB_ACTIONS)[number];

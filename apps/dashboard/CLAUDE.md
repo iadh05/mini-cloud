@@ -4,17 +4,19 @@ React + Vite web console. Talks to the API only (same origin), never to the data
 
 ## Status
 
-Placeholder. React + Vite app arrives in MC-208.
+Servers list and create form (MC-208). Status updates by polling every 2 s while a server is changing.
 
 ## Layout
 
 ```
 src/
-├── app/        providers, router, layout
-├── api/        fetch client, errors, query keys
+├── main.tsx    entry: mounts the router inside the providers
+├── app/        providers, routes, query client, layout (shell, not found, crash panel)
+├── api/        fetch client (checks answers with the shared schemas), ApiError, query keys
 ├── features/   one folder per service (servers, networks, ...) — each has a CLAUDE.md
 ├── ui/         design system, atomic design — see ui/CLAUDE.md
-└── lib/        small helpers
+└── lib/        small helpers: dates, Zod → Mantine form validation
+test/           test setup, fake API (MSW), render helpers
 ```
 
 ## Rules
@@ -24,6 +26,15 @@ src/
 - A feature never imports another feature. Shared UI moves down into `ui/`.
 - Pages are in `features/<service>/pages/` and fill a template from `ui/templates`.
 - Status is never color only: badges always have text.
+
+## Commands
+
+```bash
+npm run dashboard:dev     # http://localhost:5173, forwards /v1 to the API on :3000 (API_URL to change it)
+npm run dashboard:build   # production build in dist/
+```
+
+Tests run with the rest (`npm test`) in the `dashboard` Vitest project: jsdom, React Testing Library, MSW for the API.
 
 ## Adding a feature
 
