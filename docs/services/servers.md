@@ -79,7 +79,7 @@ Container (module `infra/modules/server`):
 - All Linux capabilities dropped, then only what the image needs added back (measured per image, in `SERVER_IMAGES`): nginx `CHOWN SETUID SETGID`, caddy `NET_BIND_SERVICE`, httpd and whoami none.
 - `no-new-privileges`, memory limit (128 MiB by default) with swap disabled.
 - Only images from the allow-list.
-- No host ports in Phase 2: traffic only through Traefik.
+- No host ports: traffic only through Traefik (`mc-traefik`, port 80 on 127.0.0.1). Only containers labelled `traefik.enable=true` are routed; everything else on `mc-tenants` gets a 404.
 - Capacity check on create from Phase 3 (`422 insufficient_capacity`).
 
 ## Tickets

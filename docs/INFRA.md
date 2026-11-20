@@ -117,7 +117,7 @@ flowchart LR
     traefik --> s1 & s2
 ```
 
-- Traefik is the **only** container that publishes ports to the host (`80`, and the dashboard on `127.0.0.1:8080`).
+- Traefik is the **only** container that publishes ports to the host (`80`, and the dashboard on `127.0.0.1:8088`).
 - Postgres publishes `127.0.0.1:5432` in dev only, so you can open it with a database tool. Never on the VPS.
 - Tenant containers publish **no** ports. They are reachable only through Traefik.
 - Traefik is on both networks. Tenants are never on `mc-platform`.

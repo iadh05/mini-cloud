@@ -21,7 +21,9 @@ A small self-hosted cloud: a REST API stores desired state, a worker turns jobs 
 npm install          # also installs the git hooks
 npm run check        # format, lint, architecture rules, typecheck, tests (must pass)
 npm run format       # fix formatting
-npm run db:up        # Postgres in Docker, waits until healthy
+npm run platform:up  # Postgres + Traefik in Docker, waits until healthy
+npm run db:migrate   # tables and the service catalog
+npm run infra:check  # Terraform fmt, validate, test
 ```
 
 ## Rules

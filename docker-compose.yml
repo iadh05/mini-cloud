@@ -1,4 +1,5 @@
 # Platform services for local development. Tenant resources are created by Terraform, not here.
+# Networks and IP ranges: docs/INFRA.md §5 and §6.
 name: mini-cloud
 
 services:
@@ -12,6 +13,8 @@ services:
       - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
+    networks:
+      - mc-platform
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U minicloud -d minicloud"]
       interval: 5s
@@ -19,6 +22,58 @@ services:
       retries: 10
       start_period: 10s
     restart: unless-stopped
+
+  # Edge router: http://<name>.mc.localhost -> the tenant server with that name.
+  # The only container that publishes ports. Tenant servers publish none.
+  traefik:
+    image: traefik:v3.7.19
+    container_name: mc-traefik
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      # Only containers labelled traefik.enable=true are routed.
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=mc-tenants
+      # Dashboard on :8080 inside, published on 127.0.0.1:8088 only (8080 is often taken).
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --ping=true
+      - --log.level=INFO
+      - --accesslog=true
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:8088:8080"
+    volumes:
+      # Phase 2 exception (docs/INFRA.md §9): the Docker provider needs the socket.
+      # Read-only does not make the API read-only. Removed in Phase 4 (file provider).
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - mc-platform
+      - mc-tenants
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+
+networks:
+  mc-platform:
+    name: mc-platform
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24
+  mc-tenants:
+    name: mc-tenants
+    ipam:
+      config:
+        - subnet: 10.15.0.0/24
 
 volumes:
   pgdata:
