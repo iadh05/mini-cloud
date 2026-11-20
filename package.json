@@ -32,7 +32,9 @@
     "platform:up": "docker compose up -d --wait",
     "platform:down": "docker compose down",
     "smoke:routing": "bash scripts/smoke-routing.sh",
-    "worker:dev": "npm run dev -w @mini-cloud/worker"
+    "worker:dev": "npm run dev -w @mini-cloud/worker",
+    "dashboard:dev": "npm run dev -w @mini-cloud/dashboard",
+    "dashboard:build": "npm run build -w @mini-cloud/dashboard"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",
@@ -43,6 +45,7 @@
     "dependency-cruiser": "18.8.0",
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-sonarjs": "4.2.2",
     "globals": "17.14.0",
     "husky": "9.1.7",

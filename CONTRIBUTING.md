@@ -99,6 +99,7 @@ npm install
 npm run platform:up        # Postgres + Traefik, waits until healthy
 npm run db:migrate         # tables and the service catalog
 npm run worker:dev         # provisioner: takes jobs, runs Terraform (needs terraform on PATH)
+npm run dashboard:dev      # console on http://localhost:5173 (needs api:dev running)
 npm run smoke:routing      # optional: check http://<name>.mc.localhost routing
 npm run check
 ```
