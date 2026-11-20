@@ -27,7 +27,8 @@
     "db:generate": "npm run generate -w @mini-cloud/db",
     "db:migrate": "npm run migrate -w @mini-cloud/db",
     "test:coverage": "vitest run --coverage",
-    "api:dev": "npm run dev -w @mini-cloud/api"
+    "api:dev": "npm run dev -w @mini-cloud/api",
+    "infra:check": "terraform fmt -check -recursive infra && cd infra/modules/server && terraform init -backend=false -input=false >/dev/null && terraform validate && terraform test"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",

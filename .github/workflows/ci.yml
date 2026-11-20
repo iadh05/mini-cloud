@@ -86,6 +86,24 @@ jobs:
           path: coverage/
           retention-days: 14
 
+  terraform:
+    name: Terraform modules
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.17.2
+          terraform_wrapper: false
+      - run: terraform fmt -check -recursive infra
+      - name: Validate and test every module (tests apply real containers)
+        run: |
+          for m in infra/modules/*/; do
+            echo "::group::$m"
+            (cd "$m" && terraform init -backend=false -input=false && terraform validate && terraform test)
+            echo "::endgroup::"
+          done
+
   compose:
     name: Platform starts (Compose)
     runs-on: ubuntu-24.04

@@ -1,5 +1,6 @@
 // Every workspace and every feature folder needs a CLAUDE.md that links to existing docs.
 // A feature folder (apps/*/src/features/<service>/) must link to docs/services/<service>.md.
+// A Terraform module (infra/modules/<type>/) must link to a doc in docs/services/.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, normalize } from "node:path";
 
@@ -12,7 +13,15 @@ const dirsIn = (path) =>
 
 const apps = dirsIn("apps");
 const features = apps.flatMap((app) => dirsIn(join(app, "src", "features")));
-const folders = [".", ...apps, ...dirsIn("packages"), "apps/dashboard/src/ui", ...features];
+const modules = dirsIn("infra/modules");
+const folders = [
+  ".",
+  ...apps,
+  ...dirsIn("packages"),
+  "apps/dashboard/src/ui",
+  ...features,
+  ...modules,
+];
 
 const problems = [];
 
@@ -33,6 +42,9 @@ for (const folder of folders) {
   }
   if (docLinks.length === 0) problems.push(`${file}: no link to a doc in docs/`);
 
+  if (modules.includes(folder) && !docLinks.some((d) => d.startsWith("docs/services/"))) {
+    problems.push(`${file}: a module must link to its service doc in docs/services/`);
+  }
   if (features.includes(folder)) {
     const service = folder.split("/").pop() ?? "";
     const serviceDoc = `docs/services/${service}.md`;

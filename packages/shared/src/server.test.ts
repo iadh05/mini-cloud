@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { resourceName } from "./resource-name.ts";
-import { createServerInput, imageRef, SERVER_IMAGES, serverSpec } from "./server.ts";
+import {
+  createServerInput,
+  imageRef,
+  SERVER_CAPABILITIES,
+  SERVER_IMAGES,
+  serverSpec,
+} from "./server.ts";
 
 const valid = { name: "web-1", image: "nginx", port: 80 };
 
@@ -87,5 +93,11 @@ describe("images", () => {
 
   it("resolves an image id to its pinned reference", () => {
     expect(imageRef("nginx")).toBe("nginx:1.29-alpine");
+  });
+
+  it("only gives back capabilities from the allowed list", () => {
+    for (const image of Object.values(SERVER_IMAGES)) {
+      for (const cap of image.capabilities) expect(SERVER_CAPABILITIES).toContain(cap);
+    }
   });
 });

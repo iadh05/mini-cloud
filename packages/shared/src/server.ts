@@ -6,12 +6,44 @@ import { resourceName } from "./resource-name.ts";
  * Images a server may run. Users pick an id; the worker runs the pinned image reference.
  * Design: docs/services/servers.md
  */
+/** Linux capabilities a server may get back after all are dropped (see infra/modules/server). */
+export const SERVER_CAPABILITIES = ["CHOWN", "SETUID", "SETGID", "NET_BIND_SERVICE"] as const;
+export type ServerCapability = (typeof SERVER_CAPABILITIES)[number];
+
+interface ServerImageDefinition {
+  ref: string;
+  label: string;
+  defaultPort: number;
+  /** Measured: the smallest set the image needs to start and serve (2026-11-20). */
+  capabilities: readonly ServerCapability[];
+}
+
 export const SERVER_IMAGES = {
-  nginx: { ref: "nginx:1.29-alpine", label: "NGINX web server", defaultPort: 80 },
-  httpd: { ref: "httpd:2.4-alpine", label: "Apache HTTP server", defaultPort: 80 },
-  caddy: { ref: "caddy:2.10-alpine", label: "Caddy web server", defaultPort: 80 },
-  whoami: { ref: "traefik/whoami:v1.11.0", label: "whoami (echoes the request)", defaultPort: 80 },
-} as const satisfies Record<string, { ref: string; label: string; defaultPort: number }>;
+  nginx: {
+    ref: "nginx:1.29-alpine",
+    label: "NGINX web server",
+    defaultPort: 80,
+    capabilities: ["CHOWN", "SETUID", "SETGID"],
+  },
+  httpd: {
+    ref: "httpd:2.4-alpine",
+    label: "Apache HTTP server",
+    defaultPort: 80,
+    capabilities: [],
+  },
+  caddy: {
+    ref: "caddy:2.10-alpine",
+    label: "Caddy web server",
+    defaultPort: 80,
+    capabilities: ["NET_BIND_SERVICE"],
+  },
+  whoami: {
+    ref: "traefik/whoami:v1.11.0",
+    label: "whoami (echoes the request)",
+    defaultPort: 80,
+    capabilities: [],
+  },
+} as const satisfies Record<string, ServerImageDefinition>;
 
 export type ServerImage = keyof typeof SERVER_IMAGES;
 
