@@ -98,6 +98,7 @@ cp .env.example .env       # then change the passwords
 npm install
 npm run platform:up        # Postgres + Traefik, waits until healthy
 npm run db:migrate         # tables and the service catalog
+npm run worker:dev         # provisioner: takes jobs, runs Terraform (needs terraform on PATH)
 npm run smoke:routing      # optional: check http://<name>.mc.localhost routing
 npm run check
 ```

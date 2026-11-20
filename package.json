@@ -31,7 +31,8 @@
     "infra:check": "terraform fmt -check -recursive infra && cd infra/modules/server && terraform init -backend=false -input=false >/dev/null && terraform validate && terraform test",
     "platform:up": "docker compose up -d --wait",
     "platform:down": "docker compose down",
-    "smoke:routing": "bash scripts/smoke-routing.sh"
+    "smoke:routing": "bash scripts/smoke-routing.sh",
+    "worker:dev": "npm run dev -w @mini-cloud/worker"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",

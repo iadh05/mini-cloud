@@ -15,6 +15,13 @@
       "when": 1795128541239,
       "tag": "0001_service_catalog",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795166083432,
+      "tag": "0002_job_heartbeat",
+      "breakpoints": true
     }
   ]
 }

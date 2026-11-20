@@ -282,7 +282,7 @@ flowchart TD
 - **One job per resource at a time.** Two jobs on the same Terraform state would corrupt it. The claim query skips resources that already have a running job.
 - **Generations.** Every change to a resource bumps `resources.generation`. A job remembers the generation it was created for. If the user changed the resource while the job ran, the worker queues a follow-up so the newest desired state always wins.
 - **Concurrency.** `WORKER_CONCURRENCY` (default 2) jobs run at once, each in its own Terraform process.
-- **Crash safety.** A job claimed but not finished within its timeout goes back to the queue. Terraform apply is idempotent, so running it again is safe.
+- **Crash safety.** A running job sends a heartbeat every `HEARTBEAT_TIMEOUT_S / 3`. A job whose heartbeat is older than `HEARTBEAT_TIMEOUT_S` is taken over by another worker (`attempts + 1`, given up after 3). Every write checks `attempts` (a fencing token), so a worker that lost its job cannot overwrite the result. Terraform apply is idempotent, so running it again is safe.
 - **Shutdown.** On `SIGTERM`, claim nothing new and wait for running jobs (up to a limit).
 
 ### 4.3 Handler interface
@@ -312,7 +312,7 @@ Most handlers are a few lines: create = render workspace + `terraform apply` + r
 
 | Step | Command | Notes |
 |---|---|---|
-| Prepare | write `var/runs/<id>/main.tf` | Rendered from template, spec values escaped and already validated |
+| Prepare | write `var/runs/<id>/main.tf.json` and `terraform.tfvars.json` | JSON, never HCL built from strings; user values only in tfvars (read literally) |
 | Init | `terraform init -input=false` | Providers come from `TF_PLUGIN_CACHE_DIR` |
 | Apply | `terraform apply -auto-approve -input=false -json` | Each JSON line is parsed: progress to logs, `diagnostic` lines to the error message |
 | Outputs | `terraform output -json` | Validated with the type's `outputs` schema |
@@ -366,6 +366,10 @@ The fake Terraform runner is why the runner is behind an interface: most worker 
 | `BASE_DOMAIN` | worker | `mc.localhost` | 2 |
 | `RUNS_DIR` | worker | `./var/runs` | 2 |
 | `TF_PLUGIN_CACHE_DIR` | worker | `./var/tf-plugins` | 2 |
+| `MODULES_DIR` | worker | `./infra/modules` | 2 |
+| `TERRAFORM_BIN` | worker | `terraform` | 2 |
+| `POLL_INTERVAL_MS` | worker | `2000` | 2 |
+| `HEARTBEAT_TIMEOUT_S` | worker | `30` | 2 |
 | `WORKER_CONCURRENCY` | worker | `2` | 2 |
 | `LOG_LEVEL` | api, worker | `info` | 2 |
 | `ALLOWED_IMAGES` | api, worker | `nginx,httpd,whoami` | 2 |

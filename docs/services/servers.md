@@ -55,7 +55,7 @@ Errors use the standard shape: `400` validation, `404` not found, `409` name tak
 ## How it is provisioned
 
 1. Worker locks the next `create` job (`FOR UPDATE SKIP LOCKED`), sets the resource to `provisioning`.
-2. Renders a run folder `RUNS_DIR/<resource-id>/` that calls `infra/modules/server` with `resource_id`, `name`, `image`, `port`, `base_domain`.
+2. Writes a run folder `RUNS_DIR/<resource-id>/`: `main.tf.json` calls `infra/modules/server`, `terraform.tfvars.json` holds `resource_id`, `name`, `image` (pinned ref), `port`, `base_domain`, `cap_add` (from `SERVER_IMAGES`). User values only go into tfvars, never into configuration.
 3. `terraform init` and `terraform apply`.
 4. Writes `containerId` and `url` to `outputs`, status `running`. On error: status `failed` with the message.
 

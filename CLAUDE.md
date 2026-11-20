@@ -23,6 +23,7 @@ npm run check        # format, lint, architecture rules, typecheck, tests (must 
 npm run format       # fix formatting
 npm run platform:up  # Postgres + Traefik in Docker, waits until healthy
 npm run db:migrate   # tables and the service catalog
+npm run worker:dev   # provisioner: takes jobs, runs Terraform (needs terraform on PATH)
 npm run infra:check  # Terraform fmt, validate, test
 ```
 
